@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using EventHub.ViewModels;
+using EventHub.Views;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
 
@@ -26,10 +27,11 @@ namespace EventHub
 
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddTransient<EventDetails>();
 
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

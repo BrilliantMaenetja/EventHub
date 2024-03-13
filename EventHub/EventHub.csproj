@@ -72,10 +72,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="Views\EventDetails.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -7,6 +7,7 @@
              xmlns:uraniumBlur="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
              xmlns:viewModel="clr-namespace:EventHub.ViewModels"
+             xmlns:model ="clr-namespace:EventHub.Models"
              x:DataType="viewModel:MainViewModel"
              x:Class="EventHub.MainPage">
 
@@ -89,7 +90,7 @@
             
 
         </Grid>
-        <Grid BackgroundColor="White"  RowDefinitions="auto,auto,auto,auto,*" RowSpacing="10" 
+        <Grid BackgroundColor="White"  RowDefinitions="auto,auto,auto,auto,250" RowSpacing="10" 
               ColumnDefinitions="auto,*,110" Padding="8" Margin="0" x:Name="mainContentGrid" ClassId="avatar" >
 
             <toolkit:AvatarView Grid.Row="0"  Grid.Column="0" Text="AM" HorizontalOptions="StartAndExpand"
@@ -103,14 +104,14 @@
                     CornerRadius="120"
                     ImageSource="https://images.pexels.com/photos/980258/pexels-photo-980258.jpeg">
                 <toolkit:AvatarView.GestureRecognizers>
-                    <TapGestureRecognizer x:Name="avatarTapped" Command="{Binding OpenProfileCommand}" />
+                    <TapGestureRecognizer x:Name="avatarTapped" Tapped="avatarTapped_Tapped" />
                 </toolkit:AvatarView.GestureRecognizers>
             </toolkit:AvatarView>
 
-                <StackLayout  Grid.Row="0" Margin="10,0,0,0" Grid.Column="1"  HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"  >
-                    <Label Text="Welcome" TextColor="Gray"  />
-                    <Label Text="John Doe" FontSize="20" TextColor="Black" FontAttributes="Bold" />
-                </StackLayout>
+            <StackLayout  Grid.Row="0" Margin="10,0,0,0" Grid.Column="1"  HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"  >
+                <Label Text="Welcome" TextColor="Gray"  />
+                <Label Text="John Doe" FontSize="20" TextColor="Black" FontAttributes="Bold" />
+            </StackLayout>
 
             <Image Grid.Row="0" Grid.Column="2" HorizontalOptions="EndAndExpand"  >
                 <Image.Source>
@@ -153,8 +154,8 @@
                     </Grid>
                 </StackLayout>
             </StackLayout>
-            <StackLayout HorizontalOptions="CenterAndExpand" Spacing="24" Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3" >
-                <Frame BackgroundColor="Black" Padding="0" HeightRequest="210" WidthRequest="170" >
+            
+                <!--<Frame BackgroundColor="Black" Padding="0" HeightRequest="210" WidthRequest="170" >
                     <Grid RowDefinitions="auto, 140"   >
                         <Image Grid.RowSpan="3" Source="https://img.freepik.com/free-photo/woman-playing-guitar-local-event_23-2149188099.jpg"
                            Opacity="0.7" Aspect="AspectFill" />
@@ -180,6 +181,9 @@
                 </Frame>
 
                 <Frame BackgroundColor="Blue" Padding="0" HeightRequest="210" WidthRequest="170" >
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GotoDetailsCommand}"   />
+                    </Frame.GestureRecognizers>
                     <Grid RowDefinitions="auto, 140"   >
                         <Image Grid.RowSpan="3" Source="https://img.freepik.com/free-photo/artist-playing-guitar-jumping-sideways_23-2148751598.jpg"
                            Opacity="0.7" Aspect="AspectFill" />
@@ -202,9 +206,54 @@
                             </StackLayout>
                         </StackLayout>
                     </Grid>
-                </Frame>
-            </StackLayout>
+                </Frame>-->
+            <CarouselView Grid.Row="4" Grid.ColumnSpan="3" x:Name="carouselView"
+                           PeekAreaInsets="60" HeightRequest="250"  >
+ 
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Event">
+                            <StackLayout >
+                                <Frame WidthRequest="200" 
+                                       Padding="0"  HeightRequest="230" >
+                                <Grid RowDefinitions="auto, 140" >
+                                    <Image Source="{Binding ImageUrl}" Grid.RowSpan="2" Aspect="AspectFill"  />
+                                    <StackLayout  Grid.Row="1" Spacing="5" Margin="2,-20,0,0"  >
+                                        <StackLayout.Effects>
+                                            <uraniumBlur:BlurEffect AccentColor="Black" />
+                                        </StackLayout.Effects>
+                                        <Label Text="Music and More" FontSize="Caption" Grid.Row="1" TextColor="White" FontAttributes="Bold" />
+
+                                        <Label Text="Must-do music and art festivals in Dzumeri" Grid.Row="2" TextColor="White"
+                                               FontSize="15"  FontAttributes="Bold" />
+                                        <StackLayout   Spacing="8" Orientation="Horizontal">
+                                            <Label Text="Tomorrow" FontSize="Caption" TextColor="White" FontAttributes="Bold" />
+                                            <Image WidthRequest="15" HeightRequest="15" VerticalOptions="StartAndExpand" >
+                                                <Image.Source>
+                                                    <FontImageSource FontFamily="FARegular"  Glyph="{x:Static fa:Solid.Clock}" Color="White"  />
+                                                </Image.Source>
+                                            </Image>
+                                            <Label Text="10:25 PM" FontSize="Caption" TextColor="White" FontAttributes="Bold"  />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+           
+
+
+
+            
         </Grid>
+        <BoxView  IsVisible="{Binding IsBusy}" BackgroundColor="White"  HeightRequest="{Binding ScreenHeight}" WidthRequest="{Binding ScreenWidth}"  />
+
+        <ActivityIndicator  IsVisible="{Binding IsBusy}"  BackgroundColor="Transparent" 
+                            IsRunning="{Binding IsBusy}" IsEnabled="{Binding IsBusy}" 
+                            HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" 
+                              Color="Red" />
+
     </Grid>
 
 </ContentPage>
